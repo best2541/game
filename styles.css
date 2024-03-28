@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  font-family: "Noto Sans Thai", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+#football,
+#gotone,
+#bonus,
+#gottwo,
+#bomb {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+#score {
+  position: absolute;
+  top: 0px;
+  left: 50vw;
+  width: 100%;
+  height: 80px !important;
+  transform: translate(-50%, -0%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  max-width: 500px;
+  min-width: 300px;
+  background-color: lightblue;
+  padding-top: 10px;
+  /* Adjust the background size */
+  background-position: bottom, bottom;
+  /* Position the background at the bottom */
+  background-repeat: no-repeat;
+  /* Prevent background from repeating */
+}
+
+#cursorImage {
+  position: fixed;
+  display: none;
+  /* Initially hide the image */
+  pointer-events: none;
+  /* Ensure the image doesn't interfere with mouse events */
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+#containner {
+  max-width: 500px;
+  min-width: 300px;
+  height: 100vh;
+  width: 100vw !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  align-items: center;
+}
+
+.background {
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
+.card-modal {
+  max-width: 480px !important;
+  min-width: 280px !important;
+}
+
+.border-curve-sm {
+  border-radius: 26px 26px 26px 26px !important;
+}
+
+.border-curve-btn {
+  border-radius: 10px 10px 10px 10px !important;
+}
+
+.border-tp-curve {
+  border-radius: 40% 40% 0% 0% !important;
+}
+
+.border-bt-curve-sm {
+  border-radius: 0% 0% 25px 25px !important;
+}
+
+.border-bt-curve {
+  border-radius: 0px 0px 40% 40% !important;
+}
+
+.border-modal-curve {
+  border-radius: 25px 25px 40% 40% !important;
+}
