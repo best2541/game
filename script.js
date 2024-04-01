@@ -41,36 +41,34 @@ function getRandomNumber() {
   // return roundedNumber;
 }
 
-// function updateFootballPosition() {
-//   const football = document.getElementById('football');
-//   footballX += dx; // Update X position
-//   footballY += dy; // Update Y position
+function increaseLevel() {
+  hardLevel++
+  const level = document.getElementById('level')
+  level.value = hardLevel
+}
+function decreaseLevel() {
+  hardLevel--
+  const level = document.getElementById('level')
+  level.value = hardLevel
+}
 
-//   // Move upwards for 1 second
-//   if (moveUpTime > 0) {
-//     moveUpTime -= 16.7; // Decrease time by frame time (approximately 60 frames per second)
-//   } else {
-//     // Move left and downwards for 2 seconds
-//     dx = -1; // Set horizontal velocity for moving left
-//     dy = window.innerHeight / 1000; // Set vertical velocity for moving downwards
-//     if (moveLeftDownTime > 0) {
-//       moveLeftDownTime -= 16.7; // Decrease time by frame time (approximately 60 frames per second)
-//     } else {
-//       // Reset the movement pattern after 3 seconds (1 second upwards + 2 seconds left and downwards)
-//       moveUpTime = 1000;
-//       moveLeftDownTime = 2000;
-//       footballX = window.innerWidth / 2; // Reset X position
-//       footballY = window.innerHeight / 2; // Reset Y position
-//       dx = 0; // Reset horizontal velocity
-//       dy = -window.innerHeight / 1000; // Reset vertical velocity for moving upwards
-//     }
-//   }
-
-//   football.style.left = footballX + 'px';
-//   football.style.top = footballY + 'px';
-
-//   requestAnimationFrame(updateFootballPosition); // Update position in the next frame
-// }
+function submit(e) {
+  const name = document.getElementById('name')
+  const phone = document.getElementById('phone')
+  const btn = document.getElementById('submitBtn')
+  e.preventDefault();
+  console.log('name = ', name.value)
+  console.log('phone =', phone.value)
+  axios.post('http://119.63.68.140:2115/game/save', { name: name.value, phone: phone.value, score: score })
+    .then(() => {
+      btn.innerHTML = "บันทึกคะแนนเรียบร้อย"
+      btn.className = "btn btn-success btn-block btn-lg border-curve-btn"
+      btn.disabled = true
+    }).catch((err) => {
+      console.log(err)
+      alert('การบันทึกไม่สำเร็จ กรุณาลองใหม่ภายหลัง')
+    })
+}
 
 async function updateFootballPosition() {
   const football = document.getElementById('football')
@@ -144,11 +142,13 @@ async function updateFootballPosition() {
     }
   }
 }
-
+document.getElementById('form').addEventListener('submit', function (event) {
+  submit(event)
+})
 document.getElementById('football').addEventListener('click', function () {
   score++
   isBonus++
-  hardLevel = Math.floor(score /5)* 0.5 + defaultHardLevel
+  hardLevel = Math.floor(score / 5) * 0.5 + defaultHardLevel
   document.getElementById('score-value').textContent = score;
   document.getElementById('score-sum').textContent = score;
   // this.style.display = 'none';
@@ -175,7 +175,7 @@ document.getElementById('football').addEventListener('click', function () {
 document.getElementById('bonus').addEventListener('click', function () {
   score += 2
   isBonus = 0
-  hardLevel = Math.floor(score /5)* 0.5 + defaultHardLevel
+  hardLevel = Math.floor(score / 5) * 0.5 + defaultHardLevel
   document.getElementById('score-value').textContent = score;
   document.getElementById('score-sum').textContent = score;
   check = true
@@ -219,5 +219,5 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Add event listener to track mouse movement
-  document.addEventListener("mousemove", updateCursorPosition);
-});
+  document.addEventListener("mousemove", updateCursorPosition)
+})

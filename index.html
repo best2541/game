@@ -26,7 +26,7 @@
     <div id="containner">
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="false" data-show="true">
             <div class="modal-dialog modal-dialog-centered card-modal" role="document">
                 <div class="modal-content border-curve-sm">
                     <div class="modal-header bg-danger d-flex justify-content-center align-items-center text-white border-modal-curve"
@@ -37,34 +37,37 @@
                         <!-- <span aria-hidden="true">&times;</span> -->
                         <!-- </button> -->
                     </div>
-                    <div class="modal-body">
-                        <h3 class="text-info">ใส่ข้อมูลเพื่อบันทึกคะแนน</h3>
-                        <label aria-label="name" for="name"
-                            class="text-danger d-flex justify-content-start pt-2 pb-1">ชื่อเล่น</label>
-                        <input id="name" type="text" class="form-control" aria-label="Small"
-                            aria-describedby="inputGroup-sizing-sm">
-                        <label aria-label="phone" for="phone"
-                            class="text-danger d-flex justify-content-start pt-2 pb-1">หมายเลขโทรศัพท์</label>
-                        <input id="phone" type="text" class="form-control" aria-label="Small"
-                            aria-describedby="inputGroup-sizing-sm">
-                    </div>
-                    <div class="modal-footer border-bt-curve-sm">
-                        <button type="button" class="btn btn-danger btn-block btn-lg border-curve-btn"
-                            data-dismiss="modal" aria-label="Close">บันทึกคะแนน</button>
-                    </div>
+                    <form id="form">
+                        <div class="modal-body">
+                            <h3 class="text-info">ใส่ข้อมูลเพื่อบันทึกคะแนน</h3>
+                            <label aria-label="name" for="name"
+                                class="text-danger d-flex justify-content-start pt-2 pb-1">ชื่อเล่น</label>
+                            <input id="name" type="text" class="form-control" aria-label="Small"
+                                aria-describedby="inputGroup-sizing-sm" required>
+                            <label aria-label="phone" for="phone"
+                                class="text-danger d-flex justify-content-start pt-2 pb-1">หมายเลขโทรศัพท์</label>
+                            <input id="phone" type="text" class="form-control" aria-label="Small"
+                                aria-describedby="inputGroup-sizing-sm" required>
+                        </div>
+                        <div class="modal-footer border-bt-curve-sm">
+                            <button id="submitBtn" type="submit"
+                                class="btn btn-danger btn-block btn-lg border-curve-btn">บันทึกคะแนน</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
         <img src="./background.jpg" class="background">
-        <img id="cursorImage" src="hand.png" alt="Cursor Image" style="width: 10%;">
+        <!-- <img id="cursorImage" src="hand.png" alt="Cursor Image" style="width: 10%;"> -->
         <div class="goalkeeper"></div>
         <img id="football" src="./football.png" style="display: none;"></img>
         <img id="gotone" src="./gotone.png" style="display: none;"></img>
         <img id="bonus" src="./bonus.png" style="display: none;"></img>
         <img id="gottwo" src="./gottwo.png" style="display: none;"></img>
         <img id="bomb" src="./bomb.png" style="display: none;"></img>
-        <div id="score" class="border-bt-curve">คะแนน : <span id="score-value">0</span></div>
+        <div id="score" class="border-bt-curve">คะแนน : <span id="score-value">0</span> <input id="level" placeholder="level" type="number" disabled style="width: 20%;" value="1"> <button onclick="increaseLevel()">+</button><button onclick="decreaseLevel()">-</button></button></div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script src="script.js"></script>
 </body>
 
