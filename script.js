@@ -13,15 +13,16 @@ let defaultHardLevel = 0.5
 let hardLevel = 1
 let isOver = false
 
+function gameOver() {
+  isOver = true
+  $('#exampleModalCenter').modal('show')
+  check = true
+}
+
 function asyncFunction() {
   return new Promise((resolve, reject) => {
-    // Simulating an asynchronous operation (e.g., fetching data)
     setTimeout(() => {
-      // Resolve the Promise after 1 second (simulating success)
       resolve("Data fetched successfully");
-
-      // Alternatively, you can reject the Promise if there's an error
-      // reject("Error occurred while fetching data");
     }, 500);
   });
 }
@@ -37,7 +38,6 @@ function getRandomNumber() {
   dx = randomNumberX
   dy = randomNumberY
   isBomb = randomBomb <= 3 ? true : false
-  // console.log('y', scaledNumberY)
   // return roundedNumber;
 }
 
@@ -92,7 +92,6 @@ async function updateFootballPosition() {
         football.style.height = 50 + percen + 'px'
         footballX += dx * (hardLevel)// Update X position
         footballY += dy * (hardLevel)// Update Y position
-        // footballY = Math.floor((highTarget * percen) / 100) // Update Y position
       } else {
         isBonus = 4
         bonus.style.display = 'block';
@@ -100,10 +99,12 @@ async function updateFootballPosition() {
         bonus.style.height = 'auto'
         footballX += dx * (hardLevel) // Update X position
         footballY += dy * (hardLevel)// Update Y position
-        // footballY = Math.floor((highTarget * percen) / 100) // Update Y position
       }
     }
   } else {
+    if(check === false && isBomb === false) {
+      gameOver()
+    }
     football.style.display = 'none';
     bonus.style.display = 'none';
     bomb.style.display = 'none';
@@ -117,12 +118,11 @@ async function updateFootballPosition() {
     bomb.style.height = 50 + 'px'
     footballX = window.innerWidth / 2 // Reset X position
     footballY = window.innerHeight / 2 // Reset Y position
+    console.log('for test')
     getRandomNumber()
     if (isBonus === 4) {
       isBonus = 0
     }
-    // dx = 0; // Reset horizontal velocity
-    // dy = -window.innerHeight / 1000; // Reset vertical velocity for moving upwards
   }
 
 
@@ -151,9 +151,7 @@ document.getElementById('football').addEventListener('click', function () {
   hardLevel = Math.floor(score / 5) * 0.5 + defaultHardLevel
   document.getElementById('score-value').textContent = score;
   document.getElementById('score-sum').textContent = score;
-  // this.style.display = 'none';
   check = true
-  // this.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
   this.style.top = Math.floor(window.innerWidth / 2) + 'px';
   this.style.left = Math.floor(window.innerWidth / 2) + 'px';
   const gotone = document.getElementById('gotone')
@@ -163,13 +161,6 @@ document.getElementById('football').addEventListener('click', function () {
   setTimeout(() => {
     gotone.style.display = 'none'
   }, 200)
-  // setTimeout(() => {
-  //   timeCounter = 0
-  //   // this.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
-  //   this.style.top = 0 + 'px';
-  //   this.style.left = Math.floor(window.innerWidth / 2) + 'px';
-  //   this.style.display = 'block';
-  // }, 1000);
 })
 
 document.getElementById('bonus').addEventListener('click', function () {
@@ -193,31 +184,41 @@ document.getElementById('bonus').addEventListener('click', function () {
 document.getElementById('bomb').addEventListener('click', function () {
   const audio = new Audio("bomb.mp3");
   audio.play()
-  isOver = true
-  $('#exampleModalCenter').modal('show')
-  check = true
+  gameOver()
   this.style.top = Math.floor(window.innerWidth / 2) + 'px';
   this.style.left = Math.floor(window.innerWidth / 2) + 'px';
 })
-updateFootballPosition(); // Start updating football position
 
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('football').style.top = footballY + 'px';
   document.getElementById('football').style.left = footballX + 'px';
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Get the cursor image element
-  var cursorImage = document.getElementById("cursorImage");
+//นับ countdown หลังกดปุ่ม start
+function countdown(element) {
+  let count = 3;
 
-  // Function to update the position of the cursor image
-  function updateCursorPosition(event) {
-    cursorImage.style.display = "block"; // Show the image
-    // Set the position of the image to follow the cursor
-    cursorImage.style.left = event.clientX + "px";
-    cursorImage.style.top = event.clientY + "px";
-  }
+  const interval = setInterval(function () {
+    element.innerHTML = count - 2
+    if (count === 0) {
+      updateFootballPosition()
+    } else if (count === 1) {
+      element.style.display = 'none'
+    } else if (count === 2) {
+      element.innerHTML = 'START!!'
+    }
+    count--;
 
-  // Add event listener to track mouse movement
-  document.addEventListener("mousemove", updateCursorPosition)
+    if (count < 0) {
+      clearInterval(interval);
+    }
+  }, 1000);
+}
+
+document.getElementById('startBtn').addEventListener('click', (event) => {
+  event.target.innerHTML = 2
+  countdown(event.target)
+  // updateFootballPosition(); // Start updating football position
 })
+
+$('#start').modal('show') //แสดงปุ่ม start

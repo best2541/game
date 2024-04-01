@@ -58,14 +58,17 @@
             </div>
         </div>
         <img src="./background.jpg" class="background">
-        <!-- <img id="cursorImage" src="hand.png" alt="Cursor Image" style="width: 10%;"> -->
-        <div class="goalkeeper"></div>
+        <div id="startBtn" class="align-middle bg-success">
+            <div class="align-middle align-items-center">START</div>
+        </div>
         <img id="football" src="./football.png" style="display: none;"></img>
         <img id="gotone" src="./gotone.png" style="display: none;"></img>
         <img id="bonus" src="./bonus.png" style="display: none;"></img>
         <img id="gottwo" src="./gottwo.png" style="display: none;"></img>
         <img id="bomb" src="./bomb.png" style="display: none;"></img>
-        <div id="score" class="border-bt-curve">คะแนน : <span id="score-value">0</span> <input id="level" placeholder="level" type="number" disabled style="width: 20%;" value="1"> <button onclick="increaseLevel()">+</button><button onclick="decreaseLevel()">-</button></button></div>
+        <div id="score" class="border-bt-curve">คะแนน : <span id="score-value">0</span> <input id="level"
+                placeholder="level" type="number" disabled style="width: 20%;" value="1"> <button
+                onclick="increaseLevel()">+</button><button onclick="decreaseLevel()">-</button></button></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script src="script.js"></script>
