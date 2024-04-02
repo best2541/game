@@ -229,16 +229,11 @@ $('#start').modal('show') //แสดงปุ่ม start
 //ปิดtab
 window.addEventListener('beforeunload', function (event) {
   // Cancel the event
-  event.preventDefault();
   time -= -this.performance.now()
   // Chrome requires returnValue to be set
-  axios.post(`${api}/game/timerecord`, { name: time })
+  axios.post(`${api}/game/timerecord`, { time: Math.floor(time / 1000) })
     .then(() => {
-      btn.innerHTML = "บันทึกคะแนนเรียบร้อย"
-      btn.className = "btn btn-success btn-block btn-lg border-curve-btn"
-      btn.disabled = true
     }).catch((err) => {
       console.log(err)
-      alert('การบันทึกไม่สำเร็จ กรุณาลองใหม่ภายหลัง')
     })
 });
