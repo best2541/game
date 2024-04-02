@@ -1,3 +1,4 @@
+let time = performance.now()
 let score = 0;
 let footballX = window.innerWidth / 2; // Initial X position
 let footballY = window.innerHeight / 2; // Start at the bottom of the screen
@@ -12,6 +13,7 @@ let check = false
 let defaultHardLevel = 0.5
 let hardLevel = 1
 let isOver = false
+const api = 'http://119.63.68.140:2115'
 
 function gameOver() {
   isOver = true
@@ -23,7 +25,7 @@ function asyncFunction() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve("Data fetched successfully");
-    }, 500);
+    }, 700);
   });
 }
 
@@ -57,9 +59,7 @@ function submit(e) {
   const phone = document.getElementById('phone')
   const btn = document.getElementById('submitBtn')
   e.preventDefault();
-  console.log('name = ', name.value)
-  console.log('phone =', phone.value)
-  axios.post('http://119.63.68.140:2115/game/save', { name: name.value, phone: phone.value, score: score })
+  axios.post(`${api}/game/save`, { name: name.value, phone: phone.value, score: score })
     .then(() => {
       btn.innerHTML = "บันทึกคะแนนเรียบร้อย"
       btn.className = "btn btn-success btn-block btn-lg border-curve-btn"
@@ -76,7 +76,6 @@ async function updateFootballPosition() {
   const bomb = document.getElementById('bomb')
   timeCounter += 16.7
   const percen = timeCounter / (moveUpTime / hardLevel)
-
   // footballY -= 2
   if (percen < 100 && !check) {
     if (isBomb) {
@@ -102,13 +101,12 @@ async function updateFootballPosition() {
       }
     }
   } else {
-    if(check === false && isBomb === false) {
+    if (check === false && isBomb === false) {
       gameOver()
     }
     football.style.display = 'none';
     bonus.style.display = 'none';
     bomb.style.display = 'none';
-    check = false
     timeCounter = 0
     football.style.width = 50 + 'px'
     football.style.height = 50 + 'px'
@@ -118,7 +116,6 @@ async function updateFootballPosition() {
     bomb.style.height = 50 + 'px'
     footballX = window.innerWidth / 2 // Reset X position
     footballY = window.innerHeight / 2 // Reset Y position
-    console.log('for test')
     getRandomNumber()
     if (isBonus === 4) {
       isBonus = 0
@@ -132,10 +129,12 @@ async function updateFootballPosition() {
   bonus.style.top = footballY + 'px';
   bomb.style.left = footballX + 'px';
   bomb.style.top = footballY + 'px';
+
   if (!isOver) {
     if (percen < 100 && !check) {
       requestAnimationFrame(updateFootballPosition); // Update position in the next frame
     } else {
+      check = false
       asyncFunction().then(() => {
         requestAnimationFrame(updateFootballPosition); // Update position in the next frame
       })
@@ -202,8 +201,10 @@ function countdown(element) {
     element.innerHTML = count - 2
     if (count === 0) {
       updateFootballPosition()
+      return
     } else if (count === 1) {
       element.style.display = 'none'
+      document.getElementById('startBtn').style.display = 'none'
     } else if (count === 2) {
       element.innerHTML = 'START!!'
     }
@@ -217,8 +218,27 @@ function countdown(element) {
 
 document.getElementById('startBtn').addEventListener('click', (event) => {
   event.target.innerHTML = 2
+  document.getElementById('startBtn').style.pointerEvents = 'none';
   countdown(event.target)
+  // event.removeEventListener('click', countdown())
   // updateFootballPosition(); // Start updating football position
 })
 
 $('#start').modal('show') //แสดงปุ่ม start
+
+//ปิดtab
+window.addEventListener('beforeunload', function (event) {
+  // Cancel the event
+  event.preventDefault();
+  time -= -this.performance.now()
+  // Chrome requires returnValue to be set
+  axios.post(`${api}/game/timerecord`, { name: time })
+    .then(() => {
+      btn.innerHTML = "บันทึกคะแนนเรียบร้อย"
+      btn.className = "btn btn-success btn-block btn-lg border-curve-btn"
+      btn.disabled = true
+    }).catch((err) => {
+      console.log(err)
+      alert('การบันทึกไม่สำเร็จ กรุณาลองใหม่ภายหลัง')
+    })
+});
