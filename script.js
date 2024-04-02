@@ -5,13 +5,12 @@ let footballY = window.innerHeight / 2; // Start at the bottom of the screen
 let isBomb = false
 let isBonus = 0
 let dx = 0; // Initial horizontal velocity
-let dy = -2; // Velocity for moving upwards
+let dy = 0; // Velocity for moving upwards
 let moveUpTime = 7; // Duration of moving upwards (1 second)
-let moveLeftDownTime = 2000; // Duration of moving left and downwards (2 seconds)
 let timeCounter = 0
 let check = false
 let defaultHardLevel = 0.5
-let hardLevel = 1
+let hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
 let isOver = false
 const api = 'http://119.63.68.140:2115'
 
@@ -36,11 +35,9 @@ function getRandomNumber() {
   var randomBomb = Math.floor(Math.random() * 10) + 1;
 
   // Round the number to get integer values
-  // var roundedNumber = (scaledNumber);
   dx = randomNumberX
   dy = randomNumberY
   isBomb = randomBomb <= 3 ? true : false
-  // return roundedNumber;
 }
 
 function increaseLevel() {
@@ -102,6 +99,7 @@ async function updateFootballPosition() {
     }
   } else {
     if (check === false && isBomb === false) {
+
       gameOver()
     }
     football.style.display = 'none';
@@ -134,8 +132,8 @@ async function updateFootballPosition() {
     if (percen < 100 && !check) {
       requestAnimationFrame(updateFootballPosition); // Update position in the next frame
     } else {
-      check = false
       asyncFunction().then(() => {
+        check = false
         requestAnimationFrame(updateFootballPosition); // Update position in the next frame
       })
     }
@@ -147,7 +145,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
 document.getElementById('football').addEventListener('click', function () {
   score++
   isBonus++
-  hardLevel = Math.floor(score / 5) * 0.5 + defaultHardLevel
+  hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
   document.getElementById('score-value').textContent = score;
   document.getElementById('score-sum').textContent = score;
   check = true
@@ -165,7 +163,7 @@ document.getElementById('football').addEventListener('click', function () {
 document.getElementById('bonus').addEventListener('click', function () {
   score += 2
   isBonus = 0
-  hardLevel = Math.floor(score / 5) * 0.5 + defaultHardLevel
+  hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
   document.getElementById('score-value').textContent = score;
   document.getElementById('score-sum').textContent = score;
   check = true
@@ -201,7 +199,7 @@ function countdown(element) {
     element.innerHTML = count - 2
     if (count === 0) {
       updateFootballPosition()
-      return
+      clearInterval(interval);
     } else if (count === 1) {
       element.style.display = 'none'
       document.getElementById('startBtn').style.display = 'none'
@@ -209,10 +207,6 @@ function countdown(element) {
       element.innerHTML = 'START!!'
     }
     count--;
-
-    if (count < 0) {
-      clearInterval(interval);
-    }
   }, 1000);
 }
 
@@ -220,8 +214,6 @@ document.getElementById('startBtn').addEventListener('click', (event) => {
   event.target.innerHTML = 2
   document.getElementById('startBtn').style.pointerEvents = 'none';
   countdown(event.target)
-  // event.removeEventListener('click', countdown())
-  // updateFootballPosition(); // Start updating football position
 })
 
 $('#start').modal('show') //แสดงปุ่ม start
@@ -229,6 +221,7 @@ $('#start').modal('show') //แสดงปุ่ม start
 //ปิดtab
 window.addEventListener('beforeunload', function (event) {
   // Cancel the event
+  event.preventDefault()
   time -= -this.performance.now()
   // Chrome requires returnValue to be set
   axios.post(`${api}/game/timerecord`, { time: Math.floor(time / 1000) })
