@@ -12,7 +12,7 @@ let check = false
 let defaultHardLevel = 0.5
 let hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
 let isOver = false
-const api = 'http://119.63.68.140:2115'
+const api = 'https://central-game-api'
 
 function gameOver() {
   isOver = true
@@ -26,6 +26,14 @@ function asyncFunction() {
       resolve("Data fetched successfully");
     }, 700);
   });
+}
+
+function shareOnFacebook() {
+  var url = encodeURIComponent('https://lin.ee/CPsZSyB'); // Replace with your URL
+  var quote = encodeURIComponent('Check out this awesome website!'); // Replace with your quote
+
+  var shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`;
+  window.open(shareUrl, '_blank');
 }
 
 function getRandomNumber() {
@@ -52,11 +60,11 @@ function decreaseLevel() {
 }
 
 function submit(e) {
-  const name = document.getElementById('name')
+  // const name = document.getElementById('name')
   const phone = document.getElementById('phone')
   const btn = document.getElementById('submitBtn')
   e.preventDefault();
-  axios.post(`${api}/game/save`, { name: name.value, phone: phone.value, score: score })
+  axios.post(`${api}/game/save`, { name: '', phone: phone.value, score: score })
     .then(() => {
       btn.innerHTML = "บันทึกคะแนนเรียบร้อย"
       btn.className = "btn btn-success btn-block btn-lg border-curve-btn"
