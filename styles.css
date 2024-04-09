@@ -9,7 +9,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100vh !important;
+  max-height: 100vh !important;
   background-color: #f0f0f0;
   font-family: 'CustomFont' !important;
   /* font-family: "Noto Sans Thai", sans-serif !important; */
@@ -18,11 +19,19 @@ body {
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
+  overflow-y: visible;
+}
+
+h1 {
+  color: white !important;
 }
 
 #football,
 #gotone,
 #bonus,
+#bonus1,
+#bonus2,
+#bonus3,
 #gottwo,
 #bomb {
   width: 50px;
@@ -48,7 +57,7 @@ body {
 #startBtn2 {
   width: 280px;
   position: absolute;
-  top: 80%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
@@ -129,10 +138,12 @@ body {
   margin-right: 2%;
   color: white;
 }
+
 #score-img {
   position: absolute;
   transform: translate(-50%, -40%);
 }
+
 #score-value {
   position: absolute;
   transform: translate(-50%, -10%);
@@ -149,7 +160,7 @@ body {
   font-weight: bold;
   color: white;
   max-width: 500px;
-  min-width: 300px;
+  min-width: 250px;
   background-color: lightblue;
   padding-top: 10px;
   /* Adjust the background size */
@@ -170,10 +181,12 @@ body {
 }
 
 #containner,
-#start-containner {
+#start-containner,
+#result-containner {
   max-width: 500px;
-  min-width: 300px;
-  height: 100vh;
+  min-width: 250px;
+  height: 100vh !important;
+  max-height: 100vh !important;
   width: 100vw !important;
   display: flex;
   justify-content: center;
@@ -181,23 +194,80 @@ body {
   text-align: center;
   align-items: center;
   position: relative;
+  overflow-y: visible;
+}
+
+.center-img {
+  display: block;
+  margin: auto;
+}
+.company-img {
+  position: absolute;
+  display: block;
+  margin: auto;
+  width: 60%;
+  top: 3%;
+}
+
+.logo-img {
+  position: absolute;
+  display: block;
+  margin: auto;
+  width: 80%;
+  top: 10%;
+}
+
+.info-img {
+  position: absolute;
+  display: block;
+  margin: auto;
+  width: 80%;
+  top: 50%;
 }
 
 .blackdrop {
   position: absolute;
   width: 100%;
   max-width: 500px;
-  min-width: 300px;
+  min-width: 250px;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8) !important;
   z-index: 999 !important;
 }
 
-.background {
-  height: 100%;
+.background,
+.result-background {
+  height: 100vh !important;
   width: 100%;
   background-position: center;
   background-size: cover;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  width: 100%;
+  height: 100px;
+  background-color: red;
+}
+
+.leaderboard {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 80%;
+  height: 55vh;
+}
+
+.result-form {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 70%;
 }
 
 .countdown {
@@ -236,7 +306,7 @@ body {
 
 .card-modal {
   max-width: 480px !important;
-  min-width: 280px !important;
+  min-width: 230px !important;
 }
 
 .border-curve-sm {
@@ -244,7 +314,7 @@ body {
 }
 
 .border-curve-btn {
-  border-radius: 10px 10px 10px 10px !important;
+  border-radius: 20px 20px 20px 20px !important;
 }
 
 .border-tp-curve {
@@ -256,9 +326,38 @@ body {
 }
 
 .border-bt-curve {
-  border-radius: 0px 0px 40% 40% !important;
+  border-radius: 0px 0px 80% 80% !important;
 }
 
 .border-modal-curve {
   border-radius: 25px 25px 40% 40% !important;
+}
+
+.p-2 {
+  padding: 2rem !important;
+}
+
+.m-2 {
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 80%;
+  border-radius: 0 0 25px 25px;
+  transform: translate(-50%);
+  background-color: white;
+  height: 10%;
+}
+
+.thank {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  color: white;
+  transform: translate(-50%,-50%);
 }

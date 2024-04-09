@@ -4,6 +4,7 @@ let footballX = window.innerWidth / 2; // Initial X position
 let footballY = window.innerHeight / 2; // Start at the bottom of the screen
 let isBomb = false
 let isBonus = 0
+let bonusCount = 1
 let dx = 0 // Initial horizontal velocity
 let dx1 = 0
 let dy = 0 // Velocity for moving upwards
@@ -12,6 +13,7 @@ let direction = 0
 let moveUpTime = 7; // Duration of moving upwards (1 second)
 let timeCounter = 0
 let check = false
+let bonusCheck = false
 let defaultHardLevel = 0.5
 let hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
 let isOver = false
@@ -21,6 +23,8 @@ let timeLimitLevel = 4
 function gameOver() {
   isOver = true
   $('#exampleModalCenter').modal('show')
+  document.getElementById('containner').style.display = 'none'
+  document.getElementById('result-containner').style.display = 'block'
   check = true
 }
 
@@ -84,7 +88,7 @@ function submit(e) {
 
 async function updateFootballPosition() {
   const football = document.getElementById('football')
-  const bonus = document.getElementById('bonus')
+  const bonus = document.getElementById(`bonus${bonusCount}`)
   const bomb = document.getElementById('bomb')
   timeCounter += 16.7
   const percen = timeCounter / (moveUpTime / hardLevel)
@@ -131,6 +135,11 @@ async function updateFootballPosition() {
     getRandomNumber()
     if (isBonus === 4) {
       isBonus = 0
+      bonusCount < 3 ? bonusCount++ : bonusCount = 1
+    }
+    if (bonusCheck) {
+      bonusCount++
+      bonusCheck = false
     }
   }
 
@@ -164,7 +173,10 @@ async function updateFootballPosition() {
 
 async function updateFootballPosition1() {
   const football = document.getElementById('football')
-  const bonus = document.getElementById('bonus')
+  const bonus = document.getElementById(`bonus${bonusCount}`)
+  const bonus1 = document.getElementById('bonus1')
+  const bonus2 = document.getElementById('bonus2')
+  const bonus3 = document.getElementById('bonus3')
   const bomb = document.getElementById('bomb')
   timeCounter += 16.7
   const percen = timeCounter / (moveUpTime / hardLevel)
@@ -197,13 +209,19 @@ async function updateFootballPosition1() {
     }
   } else {
     football.style.display = 'none';
-    bonus.style.display = 'none';
+    bonus1.style.display = 'none';
+    bonus2.style.display = 'none';
+    bonus3.style.display = 'none';
     bomb.style.display = 'none';
     timeCounter = 0
     football.style.width = 50 + 'px'
     football.style.height = 50 + 'px'
-    bonus.style.width = 50 + 'px'
-    bonus.style.height = 50 + 'px'
+    bonus1.style.width = 50 + 'px'
+    bonus1.style.height = 50 + 'px'
+    bonus2.style.width = 50 + 'px'
+    bonus2.style.height = 50 + 'px'
+    bonus3.style.width = 50 + 'px'
+    bonus3.style.height = 50 + 'px'
     bomb.style.width = 50 + 'px'
     bomb.style.height = 50 + 'px'
     footballX = window.innerWidth / 2 // Reset X position
@@ -244,7 +262,7 @@ async function updateFootballPosition1() {
 document.getElementById('form').addEventListener('submit', function (event) {
   submit(event)
 })
-document.getElementById('football').addEventListener('click', function () {
+document.getElementById('football').addEventListener('mousedown', function () {
   score++
   isBonus++
   hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
@@ -262,9 +280,10 @@ document.getElementById('football').addEventListener('click', function () {
   }, 200)
 })
 
-document.getElementById('bonus').addEventListener('click', function () {
+document.getElementById(`bonus${bonusCount}`).addEventListener('mousedown', function () {
   score += 2
   isBonus = 0
+  bonusCheck = true
   hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
   document.getElementById('score-value').textContent = score;
   document.getElementById('score-sum').textContent = score;
@@ -280,7 +299,7 @@ document.getElementById('bonus').addEventListener('click', function () {
   }, 200)
 })
 
-document.getElementById('bomb').addEventListener('click', function () {
+document.getElementById('bomb').addEventListener('mousedown', function () {
   const audio = new Audio("bomb.mp3");
   audio.play()
   gameOver()
