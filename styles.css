@@ -123,9 +123,19 @@ body {
 
 #score {
   position: absolute;
-  left: 90%;
-  top: 2%;
+  right: 2%;
+  top: 5%;
+  width: 100px;
+  margin-right: 2%;
   color: white;
+}
+#score-img {
+  position: absolute;
+  transform: translate(-50%, -40%);
+}
+#score-value {
+  position: absolute;
+  transform: translate(-50%, -10%);
 }
 
 #score_old {
