@@ -23,7 +23,28 @@
 </head>
 
 <body>
-    <div id="containner">
+    <div id="start-containner">
+        <img src="./img/BG.jpg" class="background">
+        <div id="startBtn2" class="align-middle">
+            <button id="begin">
+                <img src="./img/BTN-Start.png" style="width: 100%;height: auto;"></img>
+            </button>
+            <br />
+            <br />
+            <button id="condi">
+                <img src="./img/BTN(CONDI)-Start.png" style="width: 100%;height: auto;">
+            </button>
+        </div>
+    </div>
+    <div id="containner" style="display: none;">
+        <div id="countdown-section">
+            <div class="blackdrop"></div>
+            <div class="countdown">
+                <div id="countdown-number" class="countdown-number">
+                    3
+                </div>
+            </div>
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="false" data-show="true">
@@ -52,26 +73,37 @@
                         <div class="modal-footer border-bt-curve-sm">
                             <button id="submitBtn" type="submit"
                                 class="btn btn-danger btn-block btn-lg border-curve-btn my-0">บันทึกคะแนน</button>
-                            <button class="btn btn-info btn-block btn-lg border-curve-btn my-0" type="button" onclick="shareOnFacebook()">Share on Facebook</button>
+                            <button class="btn btn-info btn-block btn-lg border-curve-btn my-0" type="button"
+                                onclick="shareOnFacebook()">Share on Facebook</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         <img src="./background.jpg" class="background">
-        <div id="startBtn" class="align-middle bg-success">
+        <!-- <div id="startBtn" class="align-middle bg-success">
             <div class="align-middle align-items-center">START</div>
+        </div> -->
+        <div id="football" style="display: none;">
+            <img class="football" src="./img/football.png"></img>
         </div>
-        <img id="football" src="./football.png" style="display: none;"></img>
-        <img id="gotone" src="./gotone.png" style="display: none;"></img>
-        <img id="bonus" src="./bonus.png" style="display: none;"></img>
-        <img id="gottwo" src="./gottwo.png" style="display: none;"></img>
-        <img id="bomb" src="./bomb.png" style="display: none;"></img>
-        <div id="score" class="border-bt-curve">คะแนน : <span id="score-value">0</span>
-            <!-- <input id="level"
+        <!-- <img id="football" class="football" src="./img/football.png" style="display: none;"></img> -->
+        <img id="gotone" src="./img/gotone.png" style="display: none;"></img>
+        <div id="bonus" src="./img/bonus.png" style="display: none;">
+            <img class="bonus" src="./img/bonus.png"></img>
+        </div>
+        <!-- <img id="bonus" class="bonus" src="./img/bonus.png" style="display: none;"></img> -->
+        <img id="gottwo" src="./img/gottwo.png" style="display: none;"></img>
+        <div id="bomb" style="display: none;">
+            <img class="bomb" src="./img/bomb.png"></img>
+        </div>
+        <div id="time">0:00</div>
+        <div id="score"><span id="score-value">0</span></div>
+        <!-- <div id="score" class="border-bt-curve">คะแนน : <span id="score-value">0</span> -->
+        <!-- <input id="level"
                 placeholder="level" type="number" disabled style="width: 20%;" value="1"> <button
                 onclick="increaseLevel()">+</button><button onclick="decreaseLevel()">-</button></button> -->
-        </div>
+    </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script src="script.js"></script>
