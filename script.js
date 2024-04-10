@@ -19,6 +19,42 @@ let hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
 let isOver = false
 const api = 'https://central-game-api'
 let timeLimitLevel = 4
+let token
+
+//Line Auth
+const urlParams = new URLSearchParams(window.location.search);
+const code = urlParams.get('code');
+const state = urlParams.get('state')
+console.log('query', code)
+if (code && state) {
+  axios.post('https://api.line.me/oauth2/v2.1/token', {
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: 'https://central-game.ants.co.th',
+    client_id: '2004588192',
+    client_secret: '792518900ce4dca2b5b90f0768840180'
+  }, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then(result => {
+    if (result?.data?.id_token) {
+      token = result.data.id_token
+      axios.post('https://central-game-api.ants.co.th/game/getuser', {
+        token: token
+      }).then(result => {
+        console.log('result', result)
+        if (result.data) {
+          window.localStorage.setItem('uid', result.data.aud)
+          window.localStorage.setItem('name', result.data.name)
+          window.localStorage.setItem('image', result.data.picture)
+        }
+      })
+    }
+  })
+} else {
+  window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2004588192&redirect_uri=https://central-game.ants.co.th&state=${new Date().getTime()}&scope=profile%20openid`
+}
 
 function gameOver() {
   isOver = true
