@@ -25,7 +25,7 @@ let token
 const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get('code');
 const state = urlParams.get('state')
-console.log('query', code)
+if(!(window.location.href).startsWith("file://"))
 if (code && state) {
   axios.post('https://api.line.me/oauth2/v2.1/token', {
     grant_type: 'authorization_code',
