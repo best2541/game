@@ -201,6 +201,7 @@ h1 {
   display: block;
   margin: auto;
 }
+
 .company-img {
   position: absolute;
   display: block;
@@ -268,7 +269,11 @@ h1 {
   left: 50%;
   transform: translate(-50%, 0);
   width: 70%;
-  background-color: red;
+}
+
+.trans:active,.trans:focus {
+  border: transparent !important;
+  outline: transparent;
 }
 
 .countdown {
@@ -360,5 +365,5 @@ h1 {
   left: 50%;
   width: 80%;
   color: white;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }

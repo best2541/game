@@ -47,10 +47,17 @@
         <div class="leaderboard">
             <img src="./img/BG-Leaderboard.png" style="width: 100%;height: 100%;">
         </div>
-        <div class="result-form">
-            <img src="./img/Mobile-Fill.png" style="width: 100%;height: 100%;">
-            <button class="btn btn-success btn-block btn-lg border-curve-btn my-2">บันทึกคะแนน</button>
-        </div>
+        <form id="result-form" class="result-form" >
+            <div style="position: relative;">
+                <img src="./img/Mobile-Fill.png" style="width: 100%;height: 100%;">
+                <input
+                    id="phone" class="trans"
+                    style="position: absolute;width: 80%;height: 80%;left: 10%;top:20%;background-color: transparent;border: transparent;" 
+                    required
+                    />
+            </div>
+            <button class="btn btn-success btn-block btn-lg border-curve-btn my-2" type="submit">บันทึกคะแนน</button>
+        </form>
         <img src="./img/BG.jpg" class="result-background">
     </div>
     <div id="containner" style="display: none;">
@@ -82,10 +89,10 @@
                                 class="text-danger d-flex justify-content-start pt-2 pb-1">ชื่อเล่น</label>
                             <input id="name" type="text" class="form-control" aria-label="Small"
                                 aria-describedby="inputGroup-sizing-sm" required> -->
-                            <label aria-label="phone" for="phone"
+                            <!-- <label aria-label="phone" for="phone"
                                 class="text-danger d-flex justify-content-start pt-2 pb-1">หมายเลขโทรศัพท์</label>
                             <input id="phone" type="text" class="form-control" aria-label="Small"
-                                aria-describedby="inputGroup-sizing-sm" required>
+                                aria-describedby="inputGroup-sizing-sm" required> -->
                         </div>
                         <div class="modal-footer border-bt-curve-sm">
                             <button id="submitBtn" type="submit"

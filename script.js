@@ -4,6 +4,7 @@ let footballX = window.innerWidth / 2; // Initial X position
 let footballY = window.innerHeight / 2; // Start at the bottom of the screen
 let isBomb = false
 let isBonus = 0
+let random = 0
 let bonusCount = 1
 let dx = 0 // Initial horizontal velocity
 let dx1 = 0
@@ -25,35 +26,37 @@ let token
 const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get('code');
 const state = urlParams.get('state')
-if(!(window.location.href).startsWith("file://"))
-if (code && state) {
-  axios.post('https://api.line.me/oauth2/v2.1/token', {
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: 'https://central-game.ants.co.th',
-    client_id: '2004588192',
-    client_secret: '792518900ce4dca2b5b90f0768840180'
-  }, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  }).then(result => {
-    if (result?.data?.id_token) {
-      token = result.data.id_token
-      axios.post('https://central-game-api.ants.co.th/game/getuser', {
-        token: token
-      }).then(result => {
-        console.log('result', result)
-        if (result.data) {
-          window.localStorage.setItem('uid', result.data.aud)
-          window.localStorage.setItem('name', result.data.name)
-          window.localStorage.setItem('image', result.data.picture)
-        }
-      })
-    }
-  })
-} else {
-  window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2004588192&redirect_uri=https://central-game.ants.co.th&state=${new Date().getTime()}&scope=profile%20openid`
+if (!(window.location.href).startsWith("file://")) {
+
+  if (code && state) {
+    axios.post('https://api.line.me/oauth2/v2.1/token', {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: 'https://central-game.ants.co.th',
+      client_id: '2004588192',
+      client_secret: '792518900ce4dca2b5b90f0768840180'
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then(result => {
+      if (result?.data?.id_token) {
+        token = result.data.id_token
+        axios.post('https://central-game-api.ants.co.th/game/getuser', {
+          token: token
+        }).then(result => {
+          console.log('result', result)
+          if (result.data) {
+            window.localStorage.setItem('uid', result.data.aud)
+            window.localStorage.setItem('name', result.data.name)
+            window.localStorage.setItem('image', result.data.picture)
+          }
+        })
+      }
+    })
+  } else {
+    window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2004588192&redirect_uri=https://central-game.ants.co.th&state=${new Date().getTime()}&scope=profile%20openid`
+  }
 }
 
 function gameOver() {
@@ -86,6 +89,7 @@ function getRandomNumber() {
   var randomNumberX = Math.random() * -3; //0 to -3
   var randomNumberY = Math.random() * 4 - 3; // 1 to -3
   var randomBomb = Math.floor(Math.random() * 10) + 1;
+  random = Math.random()
 
   direction = Math.random() * 3
   dx = randomNumberX
@@ -130,31 +134,53 @@ async function updateFootballPosition() {
   const percen = timeCounter / (moveUpTime / hardLevel)
   // footballY -= 2
   if (percen < 100 && !check) {
-    if (isBomb) {
+    if (random > 0.8) {
       bomb.style.display = 'block';
       bomb.style.width = 50 + (percen + 8) + 'px'
       bomb.style.height = 50 + percen + 'px'
       // bomb.style.rotate = percen * 1.70 + 'deg'
       footballX += dx * (hardLevel) // Update X position
       footballY += dy * (hardLevel) // Update Y position
-    } else {
-      if (isBonus >= 0 && isBonus < 3) {
-        football.style.display = 'block';
-        football.style.width = 50 + percen + 'px'
-        football.style.height = 50 + percen + 'px'
-        // football.style.rotate = percen * 1.70 + 'deg'
-        footballX += dx1 * (hardLevel)// Update X position
-        footballY += dy1 * (hardLevel)// Update Y position
-      } else {
-        isBonus = 4
-        bonus.style.display = 'block';
+    } else if (random > 0.5) {
+      bonus.style.display = 'block';
         bonus.style.width = 50 + percen + 'px'
         bonus.style.height = 'auto'
         // bonus.style.rotate = percen * 1.70 + 'deg'
         footballX += dx * (hardLevel) // Update X position
         footballY += dy * (hardLevel)// Update Y position
-      }
+    } else {
+      football.style.display = 'block';
+        football.style.width = 50 + percen + 'px'
+        football.style.height = 50 + percen + 'px'
+        // football.style.rotate = percen * 1.70 + 'deg'
+        footballX += dx1 * (hardLevel)// Update X position
+        footballY += dy1 * (hardLevel)// Update Y position
     }
+    // if (isBomb) {
+    //   bomb.style.display = 'block';
+    //   bomb.style.width = 50 + (percen + 8) + 'px'
+    //   bomb.style.height = 50 + percen + 'px'
+    //   // bomb.style.rotate = percen * 1.70 + 'deg'
+    //   footballX += dx * (hardLevel) // Update X position
+    //   footballY += dy * (hardLevel) // Update Y position
+    // } else {
+    //   if (isBonus >= 0 && isBonus < 3) {
+    //     football.style.display = 'block';
+    //     football.style.width = 50 + percen + 'px'
+    //     football.style.height = 50 + percen + 'px'
+    //     // football.style.rotate = percen * 1.70 + 'deg'
+    //     footballX += dx1 * (hardLevel)// Update X position
+    //     footballY += dy1 * (hardLevel)// Update Y position
+    //   } else {
+    //     isBonus = 4
+    //     bonus.style.display = 'block';
+    //     bonus.style.width = 50 + percen + 'px'
+    //     bonus.style.height = 'auto'
+    //     // bonus.style.rotate = percen * 1.70 + 'deg'
+    //     footballX += dx * (hardLevel) // Update X position
+    //     footballY += dy * (hardLevel)// Update Y position
+    //   }
+    // }
   } else {
     football.style.display = 'none';
     bonus.style.display = 'none';
@@ -295,7 +321,7 @@ async function updateFootballPosition1() {
     }
   }
 }
-document.getElementById('form').addEventListener('submit', function (event) {
+document.getElementById('result-form').addEventListener('submit', function (event) {
   submit(event)
 })
 document.getElementById('football').addEventListener('mousedown', function () {
@@ -317,7 +343,7 @@ document.getElementById('football').addEventListener('mousedown', function () {
 })
 
 document.getElementById(`bonus${bonusCount}`).addEventListener('mousedown', function () {
-  score += 2
+  score += 3
   isBonus = 0
   bonusCheck = true
   hardLevel = (Math.floor(score / 5) * 0.2) + defaultHardLevel
